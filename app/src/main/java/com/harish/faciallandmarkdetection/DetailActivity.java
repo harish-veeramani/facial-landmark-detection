@@ -59,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(DetailActivity.this, "Calling Native Function", Toast.LENGTH_SHORT).show();
-                NativeClass.LandmarkDetection(mMatInput.getNativeObjAddr(), mMatOutput.getNativeObjAddr());
+                NativeClass.landmarkDetection(mMatInput.getNativeObjAddr(), mMatOutput.getNativeObjAddr());
                 mBMPOutput = convertMatToBitmap(mMatOutput);
                 mImageView.setImageBitmap(mBMPOutput);
             }
