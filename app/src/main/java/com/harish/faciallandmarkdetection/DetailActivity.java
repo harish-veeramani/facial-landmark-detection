@@ -5,14 +5,17 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.opencv.android.Utils;
+import org.opencv.core.CvException;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import static org.opencv.imgproc.Imgproc.cvtColor;
@@ -72,5 +75,26 @@ public class DetailActivity extends AppCompatActivity {
         Mat rgbMat = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC3);
         cvtColor(mat, rgbMat, Imgproc.COLOR_RGBA2BGR, 3);
         return rgbMat;
+    }
+
+    private Bitmap convertMatToBitmap(Mat mat){
+        int width = mat.width();
+        int height = mat.height();
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Mat temp = mat.channels() == 1 ? new Mat(width, height, CvType.CV_8UC1, new Scalar(1)) : new Mat(width, height, CvType.CV_8UC4);
+
+        try {
+            if (mat.channels() == 3){
+                cvtColor(mat, temp, Imgproc.COLOR_RGB2RGBA);
+            } else if (mat.channels() == 1){
+                cvtColor(mat, temp, Imgproc.COLOR_GRAY2RGBA);
+            }
+            Utils.matToBitmap(temp, bitmap);
+        } catch (CvException e){
+            Log.d("DetailActivity", e.getMessage());
+        }
+
+        return bitmap;
     }
 }
