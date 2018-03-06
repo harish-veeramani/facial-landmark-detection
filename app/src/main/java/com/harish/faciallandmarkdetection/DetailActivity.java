@@ -10,8 +10,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
+import static org.opencv.imgproc.Imgproc.cvtColor;
 
 /**
  * Created by hdv98 on 3/3/2018.
@@ -57,5 +61,16 @@ public class DetailActivity extends AppCompatActivity {
                 mImageView.setImageBitmap(mBMPOutput);
             }
         });
+    }
+
+    //Convert Java bitmap to Opencv Mat
+    private Mat convertBitmapToMat(Bitmap bitmap){
+        Mat mat = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC4);
+        Bitmap bmp32 = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Utils.bitmapToMat(bmp32, mat);
+
+        Mat rgbMat = new Mat(bitmap.getHeight(), bitmap.getWidth(), CvType.CV_8UC3);
+        cvtColor(mat, rgbMat, Imgproc.COLOR_RGBA2BGR, 3);
+        return rgbMat;
     }
 }
