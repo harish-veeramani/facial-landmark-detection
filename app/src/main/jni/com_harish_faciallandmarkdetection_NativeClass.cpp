@@ -48,3 +48,59 @@ void faceDetection(Mat& img, Mat& dst){
         cout << endl << e.what() << endl;
     }
 }
+
+void renderToMat(std::vector<full_object_detection>& dets, Mat& dst){
+    Scalar color = Scalar(0, 255, 0);
+    int sz = 3;
+
+    for (unsigned long idx = 0; idx < dets.size(); idx++){
+        for (unsigned long i = 1; i <= 16; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+
+        //Top of nose
+        for (unsigned long i = 28; i <= 30; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+
+        //Left eyebrow
+        for (unsigned long i = 18; i <= 21; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+
+        //Right eyebrow
+        for (unsigned long i = 23; i <= 26; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+
+        //Bottom part of nose
+        for (unsigned long i = 31; i <= 35; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+        cv::line(dst, Point(dets[idx].part(30).x(), dets[idx].part(30).y()), Point(dets[idx].part(35).x(), dets[idx].part(35).y()), color, sz);
+
+        //Left eye
+        for (unsigned long i = 37; i <= 41; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+        cv::line(dst, Point(dets[idx].part(36).x(), dets[idx].part(36).y()), Point(dets[idx].part(41).x(), dets[idx].part(41).y()), color, sz);
+
+        //Right eye
+        for (unsigned long i = 43; i <= 47; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+        cv::line(dst, Point(dets[idx].part(42).x(), dets[idx].part(42).y()), Point(dets[idx].part(47).x(), dets[idx].part(47).y()), color, sz);
+
+        //Outer lips
+        for (unsigned long i = 49; i <= 59; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+        cv::line(dst, Point(dets[idx].part(48).x(), dets[idx].part(48).y()), Point(dets[idx].part(59).x(), dets[idx].part(59).y()), color, sz);
+
+        //Inner lips
+        for (unsigned long i = 61; i <= 67; ++i){
+            cv::line(dst, Point(dets[idx].part(i).x(), dets[idx].part(i).y()), Point(dets[idx].part(i - 1).x(), dets[idx].part(i - 1).y()), color, sz);
+        }
+        cv::line(dst, Point(dets[idx].part(60).x(), dets[idx].part(60).y()), Point(dets[idx].part(67).x(), dets[idx].part(67).y()), color, sz);
+    }
+}
